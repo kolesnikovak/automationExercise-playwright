@@ -8,6 +8,14 @@ export class ProductsPage extends HomePage {
     private searchButton: Locator;
     private searchedProductsTitle: Locator;
     private allProductsLocator: Locator;
+    private firstProductViewDetailButton: Locator;
+    private productNameInDetails: Locator;
+    private productCategoryInDetails: Locator;
+    private productPriceInDetails: Locator;
+    private productAvailabilityInDetails: Locator;
+    private productConditionInDetails: Locator;
+    private productBrandInDetails: Locator;
+
     private readonly expectedProductsTitleText = 'All Products';
 
     constructor(page: Page) {
@@ -18,6 +26,13 @@ export class ProductsPage extends HomePage {
         this.searchButton = page.locator('button[id="submit_search"]');
         this.searchedProductsTitle = page.getByRole('heading', { name: 'Searched Products' });
         this.allProductsLocator = page.locator('div[class="features_items"] div[class="single-products"]');
+        this.firstProductViewDetailButton = page.locator('a[href="/product_details/2"]');
+        this.productNameInDetails = page.getByRole('heading', { name: 'Men Tshirt' });
+        this.productCategoryInDetails = page.getByText('Category: Men > Tshirts');
+        this.productPriceInDetails = page.getByText('Rs.');
+        this.productAvailabilityInDetails = page.getByText('Availability:');
+        this.productConditionInDetails = page.getByText('Condition:');
+        this.productBrandInDetails = page.getByText('Brand:');
     }
 
     async navigateToProductsPage(): Promise<void> {
@@ -46,4 +61,17 @@ export class ProductsPage extends HomePage {
             await expect(this.allProductsLocator.nth(i)).toBeVisible();
         }
     }
+    async clickViewProductOnFirstProduct(): Promise<void> {
+        await this.firstProductViewDetailButton.click();
+    }
+
+    async verifyDetailsAreVisible(): Promise<void> {
+        await expect(this.productNameInDetails).toBeVisible();
+        await expect(this.productCategoryInDetails).toBeVisible();
+        await expect(this.productPriceInDetails).toBeVisible();
+        await expect(this.productAvailabilityInDetails).toBeVisible();
+        await expect(this.productConditionInDetails).toBeVisible();
+        await expect(this.productBrandInDetails).toBeVisible();
+    }
+
 }

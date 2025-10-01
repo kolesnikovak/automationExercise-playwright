@@ -24,4 +24,11 @@ test.describe('Products page test cases', async () => {
         await productsPage.verifySearchedProductsPage();
         await productsPage.verifyAllProductsAreVisible();
 });
+    test('View product details and verify details', async ({page}) => {
+        await homePage.validateHomePageTitle();
+        await basePage.clickOnNavLink('Products');
+        await productsPage.verifyAllProductsPage();
+        await productsPage.clickViewProductOnFirstProduct();
+        await productsPage.verifyDetailsAreVisible();
+    });
 });
