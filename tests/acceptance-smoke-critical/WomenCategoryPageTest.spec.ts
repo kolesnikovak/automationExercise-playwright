@@ -19,9 +19,9 @@ test.describe('Women and Men category page test cases', async () => {
         await womenCategoryPage.verifyCategoriesAreVisible();
         await womenCategoryPage.navigateToWomenCategory();
         await womenCategoryPage.navigateToSareeSubcategory();
-        await womenCategoryPage.verifySareeCategoryPage();
+        await womenCategoryPage.verifyHeader('Women - Saree Products');
         await womenCategoryPage.navigateToMenCategory();
         await womenCategoryPage.navigateToTShirtsSubcategory();
-        await womenCategoryPage.verifyMenTShirtsCategoryPage();
+        await womenCategoryPage.verifyHeader('Men - Tshirts Products');
 });
 });
