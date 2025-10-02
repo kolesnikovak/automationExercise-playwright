@@ -15,6 +15,9 @@ export class ProductsPage extends HomePage {
     private productAvailabilityInDetails: Locator;
     private productConditionInDetails: Locator;
     private productBrandInDetails: Locator;
+    private brandsTitle: Locator;
+    private readonly expectedBrandsTitleText = 'Brands';
+    private allBrandsLocator: Locator;
 
     private readonly expectedProductsTitleText = 'All Products';
 
@@ -33,6 +36,8 @@ export class ProductsPage extends HomePage {
         this.productAvailabilityInDetails = page.getByText('Availability:');
         this.productConditionInDetails = page.getByText('Condition:');
         this.productBrandInDetails = page.getByText('Brand:');
+        this.brandsTitle = page.getByRole('heading', { name: 'Brands' });
+        this.allBrandsLocator = page.locator('div[class="brands_products"] ul li');
     }
 
     async navigateToProductsPage(): Promise<void> {
@@ -72,6 +77,15 @@ export class ProductsPage extends HomePage {
         await expect(this.productAvailabilityInDetails).toBeVisible();
         await expect(this.productConditionInDetails).toBeVisible();
         await expect(this.productBrandInDetails).toBeVisible();
+    }
+
+    async verifyBrandsSection(): Promise<void> {
+        await expect(this.brandsTitle).toBeVisible();
+        await expect(this.brandsTitle).toHaveText(this.expectedBrandsTitleText);
+    }
+
+    async clickOnBrand(brandName : string): Promise<void> {
+        await this.allBrandsLocator.filter({ hasText: brandName }).first().click();
     }
 
 }
