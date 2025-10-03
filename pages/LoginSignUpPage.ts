@@ -54,11 +54,19 @@ export class LoginSignUpPage extends BasePage {
         await this.loginButton.click();
     }
 
-    async validateErrorMessage(expectedMessage: string): Promise<void> {
+    async validateLoginErrorMessage(expectedMessage: string): Promise<void> {
         const errorMessage = this.page.getByText('Your email or password is');
         await expect(errorMessage).toBeVisible();
         await expect(errorMessage).toHaveText(expectedMessage);
     }
+
+
+    async validateSignupErrorMessage(expectedMessage: string): Promise<void> {
+        const errorMessage = this.page.getByText('Email Address already exist!');
+        await expect(errorMessage).toBeVisible();
+        await expect(errorMessage).toHaveText(expectedMessage);
+    }
+
     async clickLogoutButton(): Promise<void> {
         await this.logoutButton.click();
     }
