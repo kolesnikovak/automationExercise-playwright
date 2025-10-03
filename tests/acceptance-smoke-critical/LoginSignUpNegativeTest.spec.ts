@@ -25,6 +25,14 @@ test.describe('Login test cases', async () => {
         const randomEmail = faker.internet.email();
         const randomPassword = faker.internet.password();
         await loginSignupPage.loginWithEmailAndPassword(randomEmail, randomPassword);
-        await loginSignupPage.validateErrorMessage('Your email or password is incorrect!');
+        await loginSignupPage.validateErrorLoginMessage('Your email or password is incorrect!');
+    });
+    test('SignUp with existing email and verify error message', async ({page}) => {
+        await homePage.validateHomePageTitle();
+        await basePage.clickOnNavLink('Signup / Login');
+        await loginSignupPage.validateSignUpTitle();
+        const existingEmail = process.env.testEmail!;
+        await loginSignupPage.signUpWithNameAndEmail('TestUser', existingEmail);
+        await loginSignupPage.validateErrorSignUpMessage('Email Address already exist!');
     });
 });
