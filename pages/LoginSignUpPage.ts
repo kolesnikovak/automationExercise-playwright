@@ -15,6 +15,7 @@ export class LoginSignUpPage extends BasePage {
     private emailAddressField: Locator;
     private passwordField: Locator;
     private loginButton: Locator;
+    private logoutButton: Locator;
 
     constructor(page: Page) {
         super(page)
@@ -27,6 +28,7 @@ export class LoginSignUpPage extends BasePage {
         this.emailAddressField = page.locator('form').filter({ hasText: 'Login' }).getByPlaceholder('Email Address');
         this.passwordField = page.getByRole('textbox', { name: 'Password' });
         this.loginButton = page.getByRole('button', { name: 'Login' });
+        this.logoutButton = page.getByRole('link', { name: 'Logout' });
     }
 
     async validateSignUpTitle(): Promise<void> {
@@ -56,6 +58,9 @@ export class LoginSignUpPage extends BasePage {
         const errorMessage = this.page.getByText('Your email or password is');
         await expect(errorMessage).toBeVisible();
         await expect(errorMessage).toHaveText(expectedMessage);
+    }
+    async clickLogoutButton(): Promise<void> {
+        await this.logoutButton.click();
     }
 }
 
