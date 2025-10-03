@@ -19,4 +19,10 @@ export class BasePage {
         await expect(this.header).toHaveText(expectedHeaderText);
     }
 
+    async verifyLoginSuccessMessage(username: string): Promise<void> {
+        const successMessageLocator = this.topNavigationLocators.last();
+        await expect(successMessageLocator).toBeVisible();
+        await expect(successMessageLocator).toHaveText(`Logged in as ${username}`);
+    }
+
 }
