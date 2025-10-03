@@ -41,7 +41,7 @@ export class ProductsPage extends HomePage {
         this.brandsTitle = page.getByRole('heading', { name: 'Brands' });
         this.allBrandsLocator = page.locator('div[class="brands_products"] ul li');
         this.allProductsLocator = page.locator('div[class="features_items"] li');
-        this.addToCartButton = page.locator('div [class="overlay-content"] i');
+        this.addToCartButton = page.locator('div [class="productinfo text-center"] i');
         this.cartButton = page.getByRole('link', { name: 'Cart' });
         this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
     }
@@ -94,14 +94,6 @@ export class ProductsPage extends HomePage {
         await this.allBrandsLocator.filter({ hasText: brandName }).first().click();
     }
 
-    async AllPruductsAreVisible(): Promise<void> {
-        const productCount = await this.allProductsLocator.count();
-        expect(productCount).toBeGreaterThan(0);
-        console.log(`Total products found: ${productCount}`);
-        for (let i = 0; i < productCount; i++) {
-            await expect(this.allProductsLocator.nth(i)).toBeVisible();
-        }
-    }
     async addAllProductsToCart(): Promise<void> {
         const productCount = await this.allProductsLocator.count();
         for (let i = 0; i < productCount; i++) {
