@@ -6,11 +6,13 @@ export class HomePage extends BasePage{
 
     private homePageTitle: Locator;
     private allViewProductButtons: Locator;
+    private recommendedItemsSection: Locator;
 
     constructor(page: Page) {
         super(page);
         this.homePageTitle = page.getByRole('link', { name: 'Website for automation' })
         this.allViewProductButtons = page.locator('ul[class="nav nav-pills nav-justified"] a');
+        this.recommendedItemsSection = page.locator('div[class="recommended_items"]');
     }
     
     async validateHomePageTitle(): Promise<void> {
@@ -28,6 +30,10 @@ export class HomePage extends BasePage{
         await this.allViewProductButtons.nth(randomIndex).click()
     }
 
+    async verifyRecommendedItemsSection(): Promise<void> {
+        await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+        await expect(this.recommendedItemsSection).toBeVisible();
+    }
 
 
     

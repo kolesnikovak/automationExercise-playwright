@@ -15,6 +15,7 @@ export class CartPage  extends HomePage {
     private allProductsLocator: Locator;
     private deleteButtonLocator: Locator;
     private cartIsEmptyTitle: Locator;
+    private addToCartRecommendedItems: Locator;
 
     constructor(page: Page) {
          super(page);
@@ -24,12 +25,13 @@ export class CartPage  extends HomePage {
         this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
         this.quantityField = page.locator('input[id="quantity"]');
         this.cartItemsLocator = page.locator('tr[class="cart_item"]');
-        this.viewCartButton = page.getByRole('link', { name: 'View Cart' });
+        this.viewCartButton = page.locator('p[class="text-center"] u');
         this.cartInfo = page.locator('div[id="cart_info"]');
         this.cartQuantityField = page.locator('input[class="cart_quantity_input"] button');
         this.allProductsLocator = page.locator('div[class="features_items"] li');
         this.deleteButtonLocator = page.locator('a[class="cart_quantity_delete"]');
         this.cartIsEmptyTitle = page.locator('p[class="text-center"] b');
+        this.addToCartRecommendedItems = page.locator('div[id="recommended-item-carousel"] i');
     }
 
 
@@ -103,4 +105,11 @@ export class CartPage  extends HomePage {
                 await this.continueShoppingButton.click();
             }
         }
+
+        async addRecommendedItemToCart(): Promise<void> {
+            for (let i = 0; i < await this.addToCartRecommendedItems.count(); i++) {
+                await this.addToCartRecommendedItems.nth(0).click();
+            }
+
+    }
 }
