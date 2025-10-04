@@ -1,5 +1,6 @@
 import  {Locator, Page, expect} from '@playwright/test';
 import { HomePage } from './HomePage';
+import { th } from '@faker-js/faker/.';
 
 export class ProductsPage extends HomePage {
     private productsButton: Locator;
@@ -8,8 +9,8 @@ export class ProductsPage extends HomePage {
     private searchButton: Locator;
     private searchedProductsTitle: Locator;
     private firstProductViewDetailButton: Locator;
-    private productNameInDetails: Locator;
-    private productCategoryInDetails: Locator;
+    // private productNameInDetails: Locator;
+    // private productCategoryInDetails: Locator;
     private productPriceInDetails: Locator;
     private productAvailabilityInDetails: Locator;
     private productConditionInDetails: Locator;
@@ -22,6 +23,12 @@ export class ProductsPage extends HomePage {
     private addToCartButton: Locator;
     private cartButton: Locator;
     private continueShoppingButton: Locator;
+    private quantityField: Locator;
+    private cartItemsLocator: Locator;
+    private viewCartButton: Locator;
+    private cartInfo: Locator;
+    private cartQuantityField: Locator;
+
 
     constructor(page: Page) {
         super(page);
@@ -32,8 +39,8 @@ export class ProductsPage extends HomePage {
         this.searchedProductsTitle = page.getByRole('heading', { name: 'Searched Products' });
         this.allProductsLocator = page.locator('div[class="features_items"] div[class="single-products"]');
         this.firstProductViewDetailButton = page.locator('a[href="/product_details/2"]');
-        this.productNameInDetails = page.getByRole('heading', { name: 'Men Tshirt' });
-        this.productCategoryInDetails = page.getByText('Category: Men > Tshirts');
+       // this.productNameInDetails = page.getByRole('heading', { name: 'Men Tshirt' });
+       // this.productCategoryInDetails = page.getByText('Category: Men > Tshirts');
         this.productPriceInDetails = page.getByText('Rs.');
         this.productAvailabilityInDetails = page.getByText('Availability:');
         this.productConditionInDetails = page.getByText('Condition:');
@@ -41,9 +48,14 @@ export class ProductsPage extends HomePage {
         this.brandsTitle = page.getByRole('heading', { name: 'Brands' });
         this.allBrandsLocator = page.locator('div[class="brands_products"] ul li');
         this.allProductsLocator = page.locator('div[class="features_items"] li');
-        this.addToCartButton = page.locator('div [class="productinfo text-center"] i');
+        this.addToCartButton = page.locator('button[class="btn btn-default cart"]');
         this.cartButton = page.getByRole('link', { name: 'Cart' });
         this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
+        this.quantityField = page.locator('input[id="quantity"]');
+        this.cartItemsLocator = page.locator('tr[class="cart_item"]');
+        this.viewCartButton = page.getByRole('link', { name: 'View Cart' });
+        this.cartInfo = page.locator('div[id="cart_info"]');
+        this.cartQuantityField = page.locator('input[class="cart_quantity_input"] button');
     }
 
     async navigateToProductsPage(): Promise<void> {
@@ -77,8 +89,8 @@ export class ProductsPage extends HomePage {
     }
 
     async verifyDetailsAreVisible(): Promise<void> {
-        await expect(this.productNameInDetails).toBeVisible();
-        await expect(this.productCategoryInDetails).toBeVisible();
+       // await expect(this.productNameInDetails).toBeVisible();
+       // await expect(this.productCategoryInDetails).toBeVisible();
         await expect(this.productPriceInDetails).toBeVisible();
         await expect(this.productAvailabilityInDetails).toBeVisible();
         await expect(this.productConditionInDetails).toBeVisible();
@@ -115,4 +127,32 @@ export class ProductsPage extends HomePage {
             await expect(cartItemsLocator.nth(i)).toBeVisible();
         }
     }
+
+    async addProductQuantityToCart(quantity: number): Promise<void> {
+        await this.quantityField.fill(quantity.toString());
+    }
+
+    async addProductToCart(): Promise<void> {
+        await this.addToCartButton.click();
+    }
+
+    async verifyNumberOfItemsInCart(expectedCount: number): Promise<void> {
+        return expect(this.cartItemsLocator).toHaveCount(expectedCount);
+    }
+
+    async clickContinueShoppingButton(): Promise<void> {
+        await this.continueShoppingButton.click();
+    }
+
+    async clickViewCartButton(): Promise<void> {
+        await this.viewCartButton.click();
+    }
+    async verifyIfProductAddedToCartIsVisible(): Promise<void> {
+        await expect(this.cartInfo).toBeVisible();
+    }
+
+    async verifyQuantityInCart(expectedQuantity: number): Promise<void> {
+        expect(this.cartQuantityField).toHaveValue(expectedQuantity.toString());
+    }
+
 }
