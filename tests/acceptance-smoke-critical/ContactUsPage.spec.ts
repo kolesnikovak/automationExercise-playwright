@@ -16,8 +16,10 @@ test.describe('Contact Us functionality test cases', async () => {
         await basePage.clickOnNavLink('Contact us');
         await basePage.verifyContactUsPage();
         await basePage.fillContactUsForm('Test User', 'test@example.com', 'This is a test message.');
-        await basePage.uploadFileInContactUsForm('/Users/katyakolesnikova/Desktop/MyFirstTypeScriptProject/LearningTypeScript/KnopaTheBestTester.jpg');
+        await page.waitForTimeout(2000); // Wait for 2 seconds
+        await basePage.uploadFileInContactUsForm('TestFiles/KnopaTheBestTester.jpg');
         await basePage.submitContactUsForm();
+        await page.waitForTimeout(2000); // Wait for 2 seconds
         await basePage.pressOKOnAlert();
         await basePage.submitContactUsForm();
         await basePage.verifySuccessMessage();
