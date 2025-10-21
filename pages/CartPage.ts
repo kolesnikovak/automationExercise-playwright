@@ -31,7 +31,7 @@ export class CartPage  extends HomePage {
         this.allProductsLocator = page.locator('div[class="features_items"] li');
         this.deleteButtonLocator = page.locator('a[class="cart_quantity_delete"]');
         this.cartIsEmptyTitle = page.locator('p[class="text-center"] b');
-        this.addToCartRecommendedItems = page.locator('div[class="recommended_items"] a');
+        this.addToCartRecommendedItems = page.locator('div[class="carousel-inner"] i');
     }
 
 
