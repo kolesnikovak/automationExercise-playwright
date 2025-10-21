@@ -2,8 +2,8 @@ name: Scheduled Tests - DEV
 
 on:
   schedule:
-    # Run every day at 2:00 AM UTC (Monday-Friday)
-    - cron: '0 2 * * 1-5'
+    # Run every day at 1:00 AM Central Time (6:00 AM UTC) - 7 days a week
+    - cron: '0 6 * * *'
   workflow_dispatch: # Allow manual trigger
 
 env:
@@ -13,7 +13,6 @@ jobs:
   test:
     name: Run Playwright Tests (DEV)
     runs-on: ubuntu-latest
-    timeout-minutes: 60
 
     steps:
       - name: Checkout repository
@@ -25,15 +24,32 @@ jobs:
           node-version: 'lts/*'
           cache: 'npm'
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
       - name: Install dependencies
         run: npm ci
 
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+
+      - name: Install Playwright browser dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
 
       - name: Run Playwright tests
         run: npm test
-        env:
+        env: 
+         BASE_URL: ${{ secrets.DEV_BASE_URL }}
+          USERNAME: ${{ secrets.DEV_USERNAME }}
+          PASSWORD: ${{ secrets.DEV_PASSWORD }}
           CI: true
 
       - name: Upload test results
