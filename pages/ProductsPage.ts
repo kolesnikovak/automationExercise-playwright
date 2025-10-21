@@ -21,6 +21,7 @@ export class ProductsPage extends HomePage {
     private readonly expectedProductsTitleText = 'All Products';
     private allProductsLocator: Locator;
     private addToCartButton: Locator;
+    private addToCartButtonOnViewProductPage: Locator;
     private cartButton: Locator;
     private continueShoppingButton: Locator;
     private quantityField: Locator;
@@ -48,7 +49,8 @@ export class ProductsPage extends HomePage {
         this.brandsTitle = page.getByRole('heading', { name: 'Brands' });
         this.allBrandsLocator = page.locator('div[class="brands_products"] ul li');
         this.allProductsLocator = page.locator('div[class="features_items"] li');
-        this.addToCartButton = page.locator('button[class="btn btn-default cart"]');
+        this.addToCartButton = page.locator('div[class="productinfo text-center"] a');
+        this.addToCartButtonOnViewProductPage = page.locator('button[class="btn btn-default cart"]');
         this.cartButton = page.getByRole('link', { name: 'Cart' });
         this.continueShoppingButton = page.getByRole('button', { name: 'Continue Shopping' });
         this.quantityField = page.locator('input[id="quantity"]');
@@ -133,7 +135,7 @@ export class ProductsPage extends HomePage {
     }
 
     async addProductToCart(): Promise<void> {
-        await this.addToCartButton.click();
+        await this.addToCartButtonOnViewProductPage.click();
     }
 
     async verifyNumberOfItemsInCart(expectedCount: number): Promise<void> {
