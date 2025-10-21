@@ -35,10 +35,10 @@ jobs:
       - name: Run Playwright tests
         run: npm test
         env: 
-         BASE_URL: ${{ secrets.DEV_BASE_URL }}
-          USERNAME: ${{ secrets.DEV_USERNAME }}
-          PASSWORD: ${{ secrets.DEV_PASSWORD }}
-          CI: true
+        BASE_URL: ${{ secrets.DEV_BASE_URL }}
+        USERNAME: ${{ secrets.DEV_USERNAME }}
+        PASSWORD: ${{ secrets.DEV_PASSWORD }}
+        CI: true
 
       - name: Upload test results
         if: always()
