@@ -2,7 +2,7 @@ import  test, {Locator, Page, expect} from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { LoginSignUpPage } from '../../pages/LoginSignUpPage';
 import { faker } from '@faker-js/faker';
-import { SignUpPage } from '../../pages/signUpPage';
+import { SignUpPage } from '../../pages/SignUpPage';
 
 test.describe('End to end test cases', async () => {
     let homePage: HomePage;
