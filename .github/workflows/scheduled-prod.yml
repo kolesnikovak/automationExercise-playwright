@@ -1,0 +1,68 @@
+name: Scheduled Tests - PROD
+
+on:
+  schedule:
+    # Run every day at 10:00 PM UTC (Monday-Sunday) - smoke tests only
+    - cron: '0 22 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+env:
+  ENVIRONMENT: prod
+
+jobs:
+  test:
+    name: Run Playwright Tests (PROD)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright tests (smoke and critical only)
+        run: npx playwright test tests/acceptance-smoke-critical/
+        env:
+          CI: true
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-prod
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-prod
+          path: test-results/
+          retention-days: 30
+
+  notify:
+    name: Send Notification
+    runs-on: ubuntu-latest
+    needs: test
+    if: always()
+    steps:
+      - name: Check test status
+        run: |
+          if [ "${{ needs.test.result }}" == "success" ]; then
+            echo "Tests passed successfully in PROD environment"
+          else
+            echo "Tests failed in PROD environment"
+            exit 1
+          fi
