@@ -2,7 +2,7 @@ import  test, {Locator, Page, expect} from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
 import { BasePage } from '../../pages/BasePage';
 import { ProductsPage } from '../../pages/ProductsPage';
-import { TestCasesPage } from '../../pages/testCasesPage';
+import { TestCasesPage } from '../../pages/TestCasesPage';
 
 test.describe('Products page test cases', async () => {
     let homePage: HomePage;
