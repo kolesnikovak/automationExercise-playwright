@@ -1,6 +1,6 @@
 import  test, {Locator, Page, expect} from '@playwright/test';
 import { HomePage } from '../../pages/HomePage';
-import { TestCasesPage } from '../../pages/testCasesPage';
+import { TestCasesPage } from '../../pages/TestCasesPage';
 import { BasePage } from '../../pages/BasePage';
 
 test.describe('End to end test cases', async () => {
