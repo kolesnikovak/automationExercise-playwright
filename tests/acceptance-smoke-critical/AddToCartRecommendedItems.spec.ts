@@ -4,7 +4,7 @@ import { BasePage } from '../../pages/BasePage';
 import { ProductsPage } from '../../pages/ProductsPage';
 import { CartPage } from '../../pages/CartPage';
 
-test.describe('Cart functionality test cases', async () => {
+test.describe('Cart functionality test cases', () => {
     let homePage: HomePage;
     let productsPage: ProductsPage;
     let basePage: BasePage;
